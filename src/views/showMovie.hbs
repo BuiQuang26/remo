@@ -185,7 +185,7 @@
                         btnLikeMovie.classList.add('hidden');
                     }
                     if(data.loginFalse){
-                        alert('Đăng nhập để tiếp tục !!!')
+                        window.alert('Đăng nhập để tiếp tục !!!')
                     }
                 }
             };
@@ -229,7 +229,7 @@
         .then(data=>{
             console.log(data)
             if(data.loginFalse){
-                alert("login để tiếp tục!!!")
+                window.alert("login để tiếp tục!!!")
             }else{
                 data.sort(()=>{
                 return -1;
