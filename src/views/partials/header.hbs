@@ -3,7 +3,7 @@
         <div class="navbar-brand">
             <div class="navbar-logo">
                 <a href="/">
-                    <img src="http://localhost:3000/img/logophim.png" alt="" class="logo-img">
+                    <img src="../img/logophim.png" alt="" class="logo-img">
                 </a>
             </div>
             <a href="/" class="navbar-heading">
@@ -99,7 +99,7 @@
     var lastScrollTop = 0;
     window.addEventListener("scroll", () => {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if(scrollTop > lastScrollTop){
+        if(scrollTop > 0 && scrollTop > lastScrollTop){
             header.style.top = "-75px";
         }else{
             header.style.top = "0";
