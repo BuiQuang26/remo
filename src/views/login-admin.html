@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login admin</title>
+    <style>
+
+        html{
+            font-family: sans-serif;
+            box-sizing: border-box;
+            font-size: 62.5%;
+        }
+
+        body{
+            background-color: rgb(164, 201, 209);
+        }
+
+        .admin-login{
+            width: 356px;
+            padding: 24px 12px;
+            border-radius: 12px;
+            margin: 50px auto;
+            background-color: #fff;
+        }
+
+        .form-title{
+            margin: 0 0 12px;
+            font-size: 3.6rem;
+        }
+
+        .form-ground{
+            display: flex;
+            margin-bottom: 36px;
+        }
+
+        .form-ground__label{
+            font-size: 2rem;
+            margin-right: 8px;
+        }
+
+        .form-ground__input{
+            flex: 1;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .btn-login{
+            border: none;
+            font-size: 1.8rem;
+            padding: 6px 30px;
+            background-color: rgb(17, 128, 169);
+            color: #fff;
+            border-radius: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .message{
+            color: #fff;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 768px) {
+            
+            .admin-login{
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .message{
+                display: none;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <h3 class="message">Không hỗ trợ mobile</h3>
+    <form action="" class="admin-login" method="POST">
+
+        <h3 class="form-title">Login administrator</h3>
+
+        <div class="form-ground">
+            <label for="" class="form-ground__label">Password</label>
+            <input type="password" class="form-ground__input" name="password" required>
+        </div>
+
+        <button class="btn-login">Gửi</button>
+    </form>
+    <script>
+        const formSubmit = document.querySelector('.admin-login');
+        const formIput = document.querySelector('.form-ground__input');
+        formSubmit.onsubmit = function(e){
+            e.preventDefault();
+            const data = {password : formIput.value };
+            fetch('/admin/login',{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                if(data.login){
+                    localStorage.setItem('admin-token',data.token);
+                    formSubmit.innerHTML = `<a href="/admin?token=${data.token}" class="btn-login">Tiếp tục</a>`;
+                }
+                
+            })
+            
+
+        }
+    </script>
+</body>
+</html>

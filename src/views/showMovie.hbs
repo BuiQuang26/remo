@@ -1,0 +1,253 @@
+<div class="home-content-wrapper home-content-top">
+    <div class="home-content-showmovie">
+        {{!-- <h3 class="home-content-heading">Trailer</h3> --}}
+        <div class="conatainer-showMovie">
+            <div class="content-video-container">
+                <iframe width="100%" height="460" src="https://www.youtube.com/embed/{{movies.trailer}}"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <div class="conatainer-Movie_info">
+                    <div>
+                        <div class="add-store-like not-add" id="btn-like-movie" data-movie-id="{{movies._id}}">
+                            <span class="add-store-like__text" >thêm vào danh dách yêu thích</span>
+                            <i class="fas fa-plus add-store-like__icon"></i>
+                        </div>
+                        <div class="add-store-like added hidden" id="btn-like-movie-added" data-movie-id="{{movies._id}}">
+                            <span class="add-store-like__text" >Đã thêm vào danh sách yêu thích</span>
+                            <i class="fas fa-check add-store-like__icon"></i>
+                        </div>
+                    </div>
+                    <h3 class="Movie-text Movie-name">{{movies.name}} </h3>
+
+                    <p class="Movie-text Movie-year"> {{movies.year}} ‧ {{movies.category}} - {{movies.time}}</p>
+                    <p class="Movie-text Movie-description">{{movies.discription}} <a href="{{movies.wiki}}">Wikipedia</a>
+                    </p>
+                    <p class="Movie-text "><span class="text-strong">Đạo diễn:</span> {{movies.Directed}}</p>
+                    <p class="Movie-text "><span class="text-strong">IMDB:</span> {{movies.imdb}} <i
+                            class="fas fa-star items-icon-star"></i></p>
+                    <img src="{{movies.imgX}}" alt="" class="movie-img">
+
+                </div>
+                <div class="comment-container">
+                    <h3 class="comment__title">Bình luận</h3>
+
+                    <div class="comment-add">
+                        <form action="" class="form-add-comment" >
+                            <input  type="text" class="form-comment-input"
+                                    name="comment-value"   
+                                    placeholder="Thêm bình luận của bạn ..." 
+                                    autocomplete="off" 
+                                    required
+                                    >
+
+                            <button class="btn btn-primary">Gửi</button>
+                        </form>
+                    </div>
+
+                    <ul class="comment__list">
+                        {{#each comments}}
+                            <li class="comment-item">
+                                <img src="https://thinkingschool.vn/wp-content/uploads/avatars/753/753-bpfull.jpg" 
+                                    alt="avatar" 
+                                    class="user-avatar" 
+                                    title="{{this.userName}}"
+                                    >
+                                <div class="item-info">
+                                    <p class="content">{{this.text}}</p>
+                                    <span class="user-name">@{{this.userName}}</span>
+                                </div>
+                            </li>
+                        {{else}}
+                                <li class="comment-item">
+                                    <div class="item-info">
+                                        <p class="text-alert-nothing text-center">Chưa có comment </p>
+                                    </div>
+                                </li>
+                        {{/each}}
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="sidebar-showmovie ">
+                <div class="sidebar-related-wrraper">
+                    <div class="sidebar-related">
+                        <h4 class="sidebar-related-heading">Video liên quan đến {{movies.name}}</h4>
+                        <ul class="sidebar-related-list">
+                            {{#each movies.related}}
+                            <li class="sidebar-related-items">
+                                <div class="items-container" data-id="{{this.id}}" data-name="{{this.name}}"
+                                    data-bs-toggle="modal" data-bs-target="#ModalRelated">
+                                    <img src="http://img.youtube.com/vi/{{this.id}}/mqdefault.jpg" alt="" 
+                                        class="items-img">
+                                    <div class="items-desc">
+                                        <p class="items-name">{{this.name}}</p>
+                                        <p class="items-author"><i class="fas fa-at"></i>{{this.page}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            {{else}}
+                                <div class="text-alert mt-4">
+                                    <h3 class="text-alert-label text-center text-alert-nothing">Chưa có video !!!</h3>
+                                </div>
+                            {{/each}}
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="ModalRelated" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ModalRelatedLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <iframe id="youtube-video" width="100%" height="480" src=""
+                                                title="YouTube video player" frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="" class="delete-Related-Form" method="POST"></form>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        $('.background').show();
+        $('.loadding-element').hide();
+    })
+</script>
+
+<script>
+    const ModalRelated = document.getElementById('ModalRelated');
+    const ModalRelatedLabel = document.getElementById('ModalRelatedLabel');
+    const deleteModal = document.getElementById('deleteModal');
+    const youtubeVideo = document.getElementById('youtube-video');
+    const btnDeleteRelated = document.getElementById('btn-delete-related');
+    const deleteRelatedForm = document.querySelector('.delete-Related-Form');
+    const btnAddStoreLike = document.querySelector('.add-store-like');
+    const btnLikeMovie = document.getElementById('btn-like-movie');
+    const btnLikeMovieAdded = document.getElementById('btn-like-movie-added');
+
+    ModalRelated.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var id = button.getAttribute('data-id')
+        var label = button.getAttribute('data-name')
+
+        ModalRelatedLabel.innerHTML = label;
+        youtubeVideo.setAttribute('src', 'https://www.youtube.com/embed/' + id)
+    })
+
+    ModalRelated.addEventListener('hidden.bs.modal', function (event) {
+        location.reload();
+    })
+
+    const movieId = btnLikeMovie.getAttribute('data-movie-id');
+
+    var xhttpCheckLikedMovie = new XMLHttpRequest();
+    xhttpCheckLikedMovie.open('POST', '/user/checkLiked');
+    xhttpCheckLikedMovie.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    var data = this.responseText;
+                    var data = JSON.parse(data);
+                    if(data.access){
+                        btnLikeMovieAdded.classList.remove('hidden');
+                        btnLikeMovie.classList.add('hidden');
+                    }
+                }
+            };
+    xhttpCheckLikedMovie.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttpCheckLikedMovie.setRequestHeader('authorization',`Bearer ${accessToken}`);
+    xhttpCheckLikedMovie.send(`movieId=${movieId}`);
+
+    btnLikeMovie.addEventListener('click', function(){
+        var accessToken = localStorage.getItem('access-token');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    var data = this.responseText;
+                    var data = JSON.parse(data);
+                    if(data.access){
+                        btnLikeMovieAdded.classList.remove('hidden');
+                        btnLikeMovie.classList.add('hidden');
+                    }
+                    if(data.loginFalse){
+                        alert('Đăng nhập để tiếp tục !!!')
+                    }
+                }
+            };
+        xhttp.open('POST', '/user/like', true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader('authorization',`Bearer ${accessToken}`);
+        xhttp.send(`movieId=${movieId}`);
+    })
+
+
+</script>
+
+{{!-- add comment --}}
+<script>
+    const formAddComment = document.querySelector('.form-add-comment');
+    const commentInput = formAddComment.querySelector('.form-comment-input');
+    const commentList = document.querySelector('.comment__list'); 
+
+    let slugMovie = window.location.pathname.split('/');
+    slugMovie = slugMovie[slugMovie.length-1]
+
+    formAddComment.onsubmit = function(e){
+        e.preventDefault();
+        const commentText = commentInput.value;
+        const accessToken = localStorage.getItem('access-token');
+
+        const data = {
+            slugMovie,
+            commentText
+        }
+
+        fetch('/comment',{
+            method: "post",
+            headers:{
+                'Content-Type': 'application/json',
+                'authorization' : `Bearer ${accessToken}`,
+            },
+            body : JSON.stringify(data),
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            if(data.loginFalse){
+                alert("login để tiếp tục!!!")
+            }else{
+                data.sort(()=>{
+                return -1;
+                });
+                
+                let commentHtml  = data.map(comment=>{
+                    return `<li class="comment-item">
+                                <img src="https://thinkingschool.vn/wp-content/uploads/avatars/753/753-bpfull.jpg" title="${comment.userName}" alt="avatar" class="user-avatar">
+                                <div class="item-info">
+                                    <p class="content">${comment.text}</p>
+                                    <span class="user-name">@${comment.userName}</span>
+                                </div>
+                            </li>`
+                });
+
+                commentList.innerHTML = commentHtml.join('');
+                commentInput.value= '';
+            }
+        })
+    }
+</script>

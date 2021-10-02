@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:3000/css/login.css">
+    <link rel="stylesheet" href="http://localhost:3000/fonts/fontawesome/css/all.css">
+    <title>my movie</title>
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <h3 class="login-heading">Đăng ký tài khoản</h3>
+            <div class="content-items">
+                <p class="content-items-label">Tên đăng nhập</p>
+                <div class="container-input">
+                    <input type="text" class="content-items-input" name="username" id="username" placeholder="Username..." autocomplete="off">
+                </div>
+            </div>
+            <div class="content-items">
+                <p class="content-items-label">Mật khẩu</p>
+                <div class="container-input">
+                    <input type="password" class="content-items-input" name="password" id="password"  placeholder="Password...">
+                </div>
+            </div>
+            <div class="content-items clearfix">
+                <button class="btn btn-login" id="btn-register">Đăng Ký</button>
+            </div>
+            <div class="content-items">
+                <p class="content-items-option">
+                    Bạn đã có tài khoản? 
+                    <a href="/user/login" class="content-items-link" >Đăng nhập tại đây</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- notification -->
+    <div class="notification notification-success hidden">
+        <div class="notification-body">
+            <p class="notification-message">Chào mừng <span class="user-name">Quang</span>, bạn đã đăng ký tài khoản thành công </p>
+        </div>
+        <a href="/" class="notifi-link">
+        <div class="notification-body notifi-swit">
+                <p class="notification-message">Chuyển hướng đến trang chủ  </p>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </a>
+    </div>
+    <div class="notification notification-err hidden"></div>
+
+    <script>
+        const notifiUserName = document.querySelector('.user-name');
+        const notificationSuccess = document.querySelector('.notification-success');
+        const notificationErr = document.querySelector('.notification-err');
+        var btnRegister = document.getElementById('btn-register');
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        const formBlock = document.querySelector('.form-block');
+
+        function register() {
+            var dataBody = 'username=' + username.value + '&password=' + password.value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    var token = this.getResponseHeader("accessToken");
+                    var data = JSON.parse(this.responseText);
+                    if (data.success) {
+                        localStorage.setItem('access-token', token);
+                        notifiUserName.innerHTML = username.value;
+                        notificationSuccess.classList.remove('hidden');
+                        notificationErr.classList.add('hidden');
+                    }
+                    else {
+                        notificationSuccess.classList.add('hidden');
+                        notificationErr.classList.remove('hidden');
+                        notificationErr.innerHTML = `<div class="notification-body">
+                                                    <p class="notification-message"> ${data.message}</p>
+                                                </div>`;
+                    }
+                }
+            };
+            xhttp.open("POST", "/user/register", true);
+            xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhttp.send(dataBody);
+        }
+
+        btnRegister.addEventListener('click', function () {
+            if(username.value.length !== 0 && password.value.length !== 0){
+                register()
+            }else{
+                console.log('loi')
+                notificationErr.classList.remove('hidden');
+                notificationErr.innerHTML = `<div class="notification-body">
+                                                    <p class="notification-message">Bạn chưa nhập đủ thông tin</p>
+                                                </div>`;
+            }
+        })
+    </script>
+</body>
+</html>

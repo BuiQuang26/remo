@@ -1,0 +1,79 @@
+<div class="list-all-movie">
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="home-content-top">
+                <h1 class="content-heading">Danh sách phim</h1>
+            </div>
+            {{!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid admin-navbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <span class="nav-label">#Lọc phim <i class="fas fa-caret-right"></i></span>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle nav-category-title" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                thể loại
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                                {{#each category}}
+                                        <li><a class="dropdown-item btn-category" data-category="{{this}}" href="">{{this}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle nav-Country-title" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Quốc gia
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {{#each Country}}
+                                        <li><a class="dropdown-item btn-Country" data-Country="{{this}}" href="">{{this}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        <li class="nav-item btn-filter-wrapper">
+                            <button type="button" class="btn btn-primary" id="btn-filter">Lọc</button>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav> --}}
+        </div>
+    </div>
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="row g-4">
+                {{#each movie}}
+                <div class="col-6 col-sm-4 col-md-4 col-lg-3">
+                    <a href="/movie/{{this.slug}}" class="content-container_items-link">
+                    <div class="card home-store-item">
+                        <img src="{{this.imgX}}" class="card-img-top home-content-img" alt="">
+                        <div class="card-body items-body">
+                            <h5 class="card-title items-title">{{this.name}}</h5>
+                            <p class="card-text text-year">{{this.year}}</p>
+                            <p class="rate-imdb">
+                                IMDB : {{this.imdb}} <i class="fas fa-star items-icon-star"></i>
+                            </p>
+                            <p class="nation">
+                                Quốc gia : {{this.Country}}
+                            </p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        $('.background').show();
+        $('.loadding-element').hide();
+    })
+</script>
+

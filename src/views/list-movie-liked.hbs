@@ -1,0 +1,118 @@
+<div class="list-all-movie">
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="home-content-top">
+                <h1 class="content-heading">Danh sách phim yêu thích của bạn.</h1>
+            </div>
+        </div>
+    </div>
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="row" id="container-movie-items"></div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Xóa phim khỏi danh sách yêu thích !!!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn chắc chắn muốn xóa phim này khỏi danh sách yêu thích ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-movieLiked">Xóa khỏi danh
+                                sách</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const containerMovieItems = document.getElementById('container-movie-items');
+    var accessToken = localStorage.getItem('access-token');
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            var data = JSON.parse(this.responseText);
+            console.log(data)
+            if (data.length != 0) {
+                var listMovieHtml = data.map(data => {
+                    return `<div class="col-md-6">
+                            <div class="content-movieLiked-wrapper">
+                                <a href="/movie/${data.slug}" class="content-container_items-link" style="display:flex;flex: 1;">
+                                <div class="content-movieLiked-items">
+                                    <img src="${data.imgY}" alt="" class="content-movieLiked-items-img">
+                                </div>
+                                <div class="content-movieLiked-items">
+                                    <div class="content-movieLiked-info">
+                                        <p class="content-movieLiked-name">${data.name}</p>
+                                        <p class="content-movieLiked-year">${data.year} - ${data.category} - ${data.time}</p>
+                                        <p class="content-movieLiked-country">Quốc gia: ${data.Country}</p>
+                                    </div>
+                                </div>
+                                </a>
+                                <div class="content-movieLiked-items">
+                                    <span class="content-movieLiked-btn" data-id-movie="${data._id}" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="far fa-times-circle"></i></span>
+                                </div>
+                            </div>
+                    </div>`;
+                });
+                containerMovieItems.innerHTML = listMovieHtml.join('');
+            } else {
+                containerMovieItems.innerHTML = `<div class="col">
+                                                    <h3> Danh sách yêu thích trống </h3>
+                                                </div>`;
+            }
+        }
+    }
+    xhttp.open('POST', '/user/api/list-movie-liked', true);
+    xhttp.setRequestHeader('authorization', `Bearer ${accessToken}`);
+    xhttp.send()
+
+
+    var exampleModal = document.getElementById('exampleModal');
+    const btnDeleteMovieLiked = document.getElementById('btn-delete-movieLiked');
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var idMovie = button.getAttribute('data-id-movie');
+
+        function deleMovieLiked() {
+            var deleXhttp = new XMLHttpRequest();
+            deleXhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    var data = this.responseText;
+                    var access = JSON.parse(data).access;
+                    if (access) {
+                        location.reload();
+                    }
+                }
+            }
+            deleXhttp.open('POST', '/user/api/dele-movie-liked', true);
+            deleXhttp.setRequestHeader('authorization', `Bearer ${accessToken}`);
+            deleXhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            deleXhttp.send(`idMovie=${idMovie}`);
+        }
+
+        btnDeleteMovieLiked.addEventListener('click', () => {
+            deleMovieLiked();
+        })
+
+    });
+</script>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        $('.background').show();
+        $('.loadding-element').hide();
+    })
+</script>

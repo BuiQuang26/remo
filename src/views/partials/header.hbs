@@ -1,0 +1,160 @@
+<div class="header">
+    <div class="navbar-warraper">
+        <div class="navbar-brand">
+            <div class="navbar-logo">
+                <a href="/">
+                    <img src="http://localhost:3000/img/logophim.png" alt="" class="logo-img">
+                </a>
+            </div>
+            <a href="/" class="navbar-heading">
+                    Remo
+            </a>
+        </div>
+        <ul class="navbar-left">
+            <li class="navbar-left_items active">
+                <a href="/" class="navbar-left_items-link">
+                    <span class="navbar-left_items-home">Home</span>
+                </a>
+            </li>
+            <li class="navbar-left_itemsitems">
+                <a href="/list-all-movie" class="navbar-left_items-link">
+                    <span class="navbar-left_items-home">Danh sách phim</span>
+                </a>
+            </li>
+            <li class="navbar-left_itemsitems" id="block-login">
+                <a href="/user/Login" class="navbar-left_items-link">
+                    <span class="navbar-left_items-home">login</span>
+                </a>
+            </li>
+            <li class="navbar-left_itemsitems hidden" id="block-user">
+                <div class="dropdown">
+                    <span class="navbar-left_items-link dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="navbar-label-username"></span>
+                    </span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a href="/user/list-movie-liked" class="navbar-left_items-link dropdown-item" type="button">Danh sách yêu thích</a></li>
+                        <li><button class="navbar-left_items-link dropdown-item" type="button" id="btn-user-logout">Log out</button></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="navbar-dropdown " >
+            <div class="navbar-dropdown__title" >
+                <span class="navbar-icon" id="nav-dropdown-btn-mobile"><i class="fas fa-bars"></i></span>
+            </div>
+
+            <ul class="navbar-dropdown-list hidden" id="navbar-mobile">
+                <a href="/" class="navbar-dropdown_items-link">
+                    <li class="navbar-dropdown_items">
+                            <span class="navbar-dropdown_items-home">Home</span>
+                    </li>
+                </a>
+                <a href="/list-all-movie" class="navbar-dropdown_items-link">
+                    <li class="navbar-dropdown_items">
+                            <span class="navbar-dropdown_items-home">Danh sách phim</span>
+                    </li>
+                </a>
+                <a href="/user/Login" class="navbar-dropdown_items-link">
+                    <li class="navbar-dropdown_items login" id="block-login-mobile">
+                            <span class="navbar-dropdown_items-home">login</span>
+                    </li>
+                </a>
+                <li class="navbar-dropdown_items hidden" id="block-user-mobile">
+                        <span class="navbar-dropdown_items-link">
+                            <span id="navbar-label-username-mobile"></span>
+                                <i class="fas fa-sort-down"></i>
+                            </span>
+                </li>
+                <li class="user-manage hidden">
+                    <ul class="user-manage-list">
+                            <a href="/user/list-movie-liked" class="navbar-dropdown_items-link">
+                                <li class="navbar-dropdown_items " id="block-login-mobile">
+                                        <span class="navbar-dropdown_items-home">Danh sách yêu thích</span>
+                                </li>
+                            </a>
+
+                            <li class="navbar-dropdown_items">
+                                <a class="navbar-dropdown_items-link user-manage-list__items"  id="btn-user-logout-mobile">Log out</a>
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const header = document.querySelector('.header');
+    const blockUser = document.getElementById('block-user');
+    const blockLogin = document.getElementById('block-login');
+    const labelUsernameNav = document.getElementById('navbar-label-username');
+    const blockUserMobile = document.getElementById('block-user-mobile');
+    const blockLoginMobile = document.getElementById('block-login-mobile');
+    const labelUsernameNavMobile = document.getElementById('navbar-label-username-mobile');
+    const btnUserLogout = document.getElementById('btn-user-logout');
+    const btnUserLogoutMobile = document.getElementById('btn-user-logout-mobile');
+    const userManage = header.querySelector('.user-manage');
+
+
+    var lastScrollTop = 0;
+    window.addEventListener("scroll", () => {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if(scrollTop > lastScrollTop){
+            header.style.top = "-75px";
+        }else{
+            header.style.top = "0";
+        }
+        lastScrollTop = scrollTop;
+    });
+
+    var accessToken = localStorage.getItem('access-token');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    var data = this.responseText;
+                    var username = JSON.parse(data).username;
+                    if(username){
+                        labelUsernameNav.innerHTML = username;
+                        labelUsernameNavMobile.innerHTML = username;
+                        blockUser.classList.remove('hidden');
+                        blockLogin.classList.add('hidden');
+                        blockUserMobile.classList.remove('hidden');
+                        
+                        blockLoginMobile.classList.add('hidden');
+                    }
+                }
+            };
+    xhttp.open('POST', '/user', true);
+    xhttp.setRequestHeader('authorization',`Bearer ${accessToken}`);
+    xhttp.send();
+
+    function logOut(){
+        localStorage.removeItem('access-token');
+        location.reload();
+    }
+
+    btnUserLogout.addEventListener('click',()=>{
+        logOut();
+    })
+    btnUserLogoutMobile.addEventListener('click',()=>{
+        logOut();
+    })
+
+    blockUserMobile.addEventListener('click',()=>{
+        userManage.classList.toggle("hidden");
+    })
+
+    const btnNavMobile = document.getElementById('nav-dropdown-btn-mobile');
+    const navbarMobile = document.getElementById('navbar-mobile');
+    btnNavMobile.addEventListener('click',function(e){
+        navbarMobile.classList.toggle("hidden");
+        if(navbarMobile.classList.contains("hidden")){
+            btnNavMobile.innerHTML = '<i class="fas fa-bars"></i>';
+        }else{
+            btnNavMobile.innerHTML = '<i class="fas fa-times"></i>';
+        }
+    })
+
+    
+
+</script>

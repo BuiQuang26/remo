@@ -1,0 +1,141 @@
+<div class="admin">
+    <div class="container ">
+        <div class="home-content-top">
+            <h1 class="content-heading">Danh sách phim</h1>
+            <a href="/admin/add-movie" class="btn-link" id="add-movie">Thêm phim</a>
+        </div>
+        <a href="/admin/Garbage-box" class="btn-link" id="garbage-box">Thùng rác</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
+            <div class="container-fluid admin-navbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <span class="nav-label">#Lọc phim <i class="fas fa-caret-right"></i></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">chọn tất cả</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            thể loại
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Phim tình cảm</a></li>
+                            <li><a class="dropdown-item" href="#">Phim viễn tưởng</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chọn tất cả</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Quốc gia
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Mỹ</a></li>
+                            <li><a class="dropdown-item" href="#">Hàn</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chọn tất cả</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item btn-filter-wrapper">
+                        <button type="button" class="btn btn-primary">Lọc</button>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <div class="container-table">
+            <table class="table table-bordered table-list-movie">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên phim</th>
+                    <th scope="col">Năm phát hành</th>
+                    <th scope="col">Thể loại</th>
+                    <th scope="col">IMDB</th>
+                    <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each movie}}
+                    <tr>
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td><a href="/admin/{{this.slug}}" >{{this.name}}</a></td>
+                    <td>{{this.year}}</td>
+                    <td>{{this.category}}</td>
+                    <td>{{this.imdb}}</td>
+                    <td>
+                        <button type="button" class="btn btn-link">
+                            <a href="/admin/update/{{this._id}}" class="btn-link">Sửa</a>
+                        </button>
+                        <button type="button" class="btn btn-link " data-name="{{this.name}}" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa</button>
+                    </td>
+                    </tr>
+                    {{else}}
+                        <td colspan="6" class="text-center text-alert-nothing"> <h3>Chưa có phim nào trong danh sách ! <a href="admin/add-movie" class="btn-link">thêm phim</a> </h3></td>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xóa phim </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa phim này khỏi danh sách phim ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="btnDelete">xóa </button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="formDelete" method="POST"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var movieId;
+        var exampleModal = document.getElementById('exampleModal');
+        var btnDelete = $('#btnDelete');
+
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        var id = button.getAttribute('data-id');
+        var name = button.getAttribute('data-name');
+        var title = document.querySelector('.modal-title');
+
+        title.textContent = 'Xóa phim ' + name ;
+        movieId = id;
+        });
+
+        btnDelete.click((formDelete)=>{
+            $('.formDelete').attr('action', '/movie/delete/' + movieId + '?_method=DELETE');
+            $('.formDelete').submit();
+        });
+    })
+
+</script>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        const adminToken = localStorage.getItem('admin-token');
+        $('.background').show();
+        $('.loadding-element').hide();
+        $('#add-movie').attr('href', '/admin/add-movie?token=' + adminToken);
+        $('#garbage-box').attr('href', '/admin/Garbage-box?token=' + adminToken);
+    })
+</script>

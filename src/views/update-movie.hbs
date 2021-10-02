@@ -1,0 +1,68 @@
+<div class="container-update-movie home-content-top mt-24">
+    <form action="/admin/update/{{movie._id}}" method="POST" class="form-add">
+        <p>
+            <i class="fas fa-caret-left"></i>
+            <a href="/admin" class="btn-link" id="comback-admin">Quay lại danh sách phim</a>
+        </p><br>
+        <h3 class="form-heading">Sửa Phim</h3>
+        <div class="mb-3">
+            <label class="form-label" >Tên phim</label>
+            <input type="text" class="form-control" name="name"  value="{{movie.name}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Năm ra mắt</label>
+            <input type="text" class="form-control" name="year"  value="{{movie.year}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >thể loại phim</label>
+            <input type="text" class="form-control" name="category"  value="{{movie.category}}" >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >thời lượng</label>
+            <input type="text" class="form-control" name="time" value="{{movie.time}}" >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >đạo diễn</label>
+            <input type="text" class="form-control" name="Directed"  value="{{movie.Directed}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >IMDB</label>
+            <input type="float" class="form-control" name="imdb"  value="{{movie.imdb}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Country</label>
+            <input type="text" class="form-control" name="Country"  value="{{movie.Country}}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label" >discription</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="discription">{{movie.discription}} </textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >link poster ngang</label>
+            <input type="text" class="form-control" name="imgY"  value="{{movie.imgY}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >link poster chữ nhật đứng</label>
+            <input type="text" class="form-control" name="imgX"  value="{{movie.imgX}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >ID trailer youtube</label>
+            <input type="text" class="form-control" name="trailer" value="{{movie.trailer}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Link Wikipedia</label>
+            <input type="text" class="form-control" name="wiki" value="{{movie.wiki}}">
+        </div>
+        <button type="submit" class="btn btn-primary form-btn">Lưu lại</button>
+    </form>
+</div>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        $('.background').show();
+        $('.loadding-element').hide();
+        const token = localStorage.getItem('admin-token');
+        $('#comback-admin').attr('href',`/admin?token=${token}`);
+    })
+</script>

@@ -1,0 +1,38 @@
+<div class="list-all-movie">
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="home-content-top">
+                <h1 class="content-heading">Danh sách phim > {{x}}/{{y}}</h1>
+            </div>
+            <a href="/list-all-movie" class="btn-link">Quay lại</a>
+        </div>
+    </div>
+    <div class="home-content-wrapper">
+        <div class="home-content">
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                {{#each movie}}
+                <div class="col">
+                    <a href="/movie/{{this.slug}}" class="content-container_items-link">
+                    <div class="card home-store-item">
+                        <img src="{{this.imgX}}" class="card-img-top home-content-img" alt="">
+                        <div class="card-body items-body">
+                            <h5 class="card-title items-title">{{this.name}}</h5>
+                            <p class="card-text text-year">{{this.year}}</p>
+                            <p class="rate-imdb">
+                                IMDB : {{this.imdb}} <i class="fas fa-star items-icon-star"></i>
+                            </p>
+                            <p class="nation">
+                                Quốc gia : {{this.Country}}
+                            </p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                {{else}}
+                    <div class="text-center"><h3>không có phim !</h3></div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+

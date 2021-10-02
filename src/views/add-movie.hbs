@@ -1,0 +1,68 @@
+<div class="container-add-movie home-content-top mt-24">
+    <form action="/admin/add-movie/save" method="POST" class="form-add">
+        <p>
+            <i class="fas fa-caret-left"></i>
+            <a href="/admin" class="btn-link" id="comback-admin">Danh sách phim</a>
+        </p><br>
+        <h3 class="form-heading">Thêm Phim</h3>
+        <div class="mb-3">
+            <label class="form-label" >Tên phim</label>
+            <input type="text" class="form-control" name="name"  placeholder="nhập tên phim">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Năm ra mắt</label>
+            <input type="text" class="form-control" name="year"  placeholder="nhập năm ra mắt">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >thể loại phim</label>
+            <input type="text" class="form-control" name="category"  >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >thời lượng</label>
+            <input type="text" class="form-control" name="time"  >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >đạo diễn</label>
+            <input type="text" class="form-control" name="Directed"  placeholder="nhập đạo diễn">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >IMDB</label>
+            <input type="text" class="form-control" name="imdb"  placeholder="nhập IMDB">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Country</label>
+            <input type="text" class="form-control" name="Country"  placeholder="nhập Country">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label" >discription</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="discription"> </textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >link poster ngang</label>
+            <input type="text" class="form-control" name="imgY"  placeholder="url...">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >link poster chữ nhật đứng</label>
+            <input type="text" class="form-control" name="imgX"  placeholder="url...">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >ID trailer youtube</label>
+            <input type="text" class="form-control" name="trailer" >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Link Wikipedia</label>
+            <input type="text" class="form-control" name="wiki" placeholder="url...">
+        </div>
+        <button type="submit" class="btn btn-primary form-btn">thêm phim</button>
+    </form>
+</div>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        const token  = localStorage.getItem('admin-token');
+        $('.background').show();
+        $('.loadding-element').hide();
+        $('#comback-admin').attr('href',`/admin?token=${token}`);
+    })
+</script>

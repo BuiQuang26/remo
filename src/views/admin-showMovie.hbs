@@ -1,0 +1,251 @@
+<div class="home-content-wrapper home-content-top">
+    <div class="home-content-showmovie">
+        {{!-- <h3 class="home-content-heading">Trailer</h3> --}}
+        <div class="conatainer-showMovie">
+            <div class="content-video-container">
+                <iframe width="100%" height="460" src="https://www.youtube.com/embed/{{movies.trailer}}"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <div class="conatainer-Movie_info">
+                    <h3 class="Movie-text Movie-name">{{movies.name}}</h3>
+                    <p class="Movie-text Movie-year"> {{movies.year}} ‧ {{movies.category}} - {{movies.time}}</p>
+                    <p class="Movie-text Movie-description">{{movies.discription}} <a href="{{movies.wiki}}">Wikipedia</a>
+                    </p>
+                    <p class="Movie-text "><span class="text-strong">Đạo diễn:</span> {{movies.Directed}}</p>
+                    <p class="Movie-text "><span class="text-strong">IMDB:</span> {{movies.imdb}} <i
+                            class="fas fa-star items-icon-star"></i></p>
+                    <img src="{{movies.imgX}}" alt="" class="movie-img">
+                    <img src="{{movies.imgX}}" alt="" class="movie-img">
+                    <img src="{{movies.imgX}}" alt="" class="movie-img">
+
+                </div>
+                <div class="comment-container">
+                    <h3 class="comment__title">Bình luận</h3>
+
+                    <ul class="comment__list">
+                        {{#each comments}}
+                            <li class="comment-item">
+                                <img src="https://thinkingschool.vn/wp-content/uploads/avatars/753/753-bpfull.jpg" 
+                                    alt="avatar" 
+                                    class="user-avatar" 
+                                    title="{{this.userName}}"
+                                    >
+                                <div class="item-info">
+                                    <p class="content">{{this.text}}</p>
+                                    {{!-- <span class="date-create">12/6/2021</span> --}}
+                                </div>
+                                <div class="comment-delete" >
+                                    <i class="fas fa-times btn-comment-delete" data-id="{{this._id}}" ></i>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="sidebar-showmovie ">
+                <div class="sidebar-related-wrraper">
+                    <div class="sidebar-related">
+                        <h4 class="sidebar-related-heading">Có liên quan đến {{movies.name}}</h4>
+                        <ul class="sidebar-related-list">
+                            {{#each movies.related}}
+                            <li class="sidebar-related-items">
+                                <div class="items-container" data-id="{{this.id}}" data-name="{{this.name}}"
+                                    data-bs-toggle="modal" data-bs-target="#ModalRelated">
+                                    <img src="http://img.youtube.com/vi/{{this.id}}/mqdefault.jpg" alt=""
+                                        class="items-img">
+                                    <div class="items-desc">
+                                        <p class="items-name">{{this.name}}</p>
+                                        <p class="items-author"><i class="fas fa-at"></i>{{this.page}}</p>
+                                    </div>
+                                </div>
+                                <div class="items-delete">
+                                    <a href="" data-id-related="{{this._id}}" class="btn-delete" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            {{/each}}
+                            <!-- deleteModal -->
+                            <div class="modal fade" id="deleteModal" data-slug="{{movies.slug}}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắn muốn xóa video
+                                                này
+                                                ?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            Hành động này không thể khôi phục !!!
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Hủy</button>
+                                            <button type="button" class="btn btn-danger" id="btn-delete-related">Xóa
+                                                khỏi
+                                                trang</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <li class="sidebar-related-btn mt-2">
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalAdd"><i class="fas fa-plus"></i></button>
+                            </li>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="ModalRelated" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ModalRelatedLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <iframe id="youtube-video" width="100%" height="480" src=""
+                                                title="YouTube video player" frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm video có liên quan đến {{movies.name}}</h5>
+            </div>
+            <div class="modal-body">
+                <p>Hãy lấy video từ nguồn youtube !!!</p><br>
+                <form action="/movie/add-related/{{movies.slug}}" method="POST">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon3">https://www.youtube.com/watch?v=(id)</span>
+                        <input type="text" class="form-control" id="basic-url" name="id" aria-describedby="basic-addon3"
+                            placeholder="nhập id">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon3">Nhập tên của video</span>
+                        <input type="text" class="form-control" id="basic-url" name="name"
+                            aria-describedby="basic-addon3">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon3">Nhập tên kênh</span>
+                        <input type="text" class="form-control" id="basic-url" name="page"
+                            aria-describedby="basic-addon3">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu lại</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<form action="" class="delete-Related-Form" method="POST"></form>
+
+<script>
+    const ModalRelated = document.getElementById('ModalRelated');
+    const ModalRelatedLabel = document.getElementById('ModalRelatedLabel');
+    const deleteModal = document.getElementById('deleteModal');
+    const youtubeVideo = document.getElementById('youtube-video');
+    const btnDeleteRelated = document.getElementById('btn-delete-related');
+    const deleteRelatedForm = document.querySelector('.delete-Related-Form');
+
+    ModalRelated.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var id = button.getAttribute('data-id')
+        var label = button.getAttribute('data-name')
+
+        ModalRelatedLabel.innerHTML = label;
+        youtubeVideo.setAttribute('src', 'https://www.youtube.com/embed/' + id)
+    })
+
+    ModalRelated.addEventListener('hidden.bs.modal', function (event) {
+        location.reload();
+    })
+
+    // delete related
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var id = button.getAttribute('data-id-related')
+        var slug = deleteModal.getAttribute('data-slug');
+        deleteRelatedForm.action = '/movie/related/' + slug + '?id=' + id + '&_method=DELETE';
+    })
+
+    btnDeleteRelated.addEventListener('click', () => {
+        deleteRelatedForm.submit();
+    })
+
+
+    // delete comment
+    const btnDeleteComment = document.querySelectorAll('.btn-comment-delete');
+    const commentList = document.querySelector('.comment__list'); 
+    for(var i=0;i<btnDeleteComment.length;i++){
+        btnDeleteComment[i].onclick = function(e){
+            const commentId = {
+                commentId : e.target.getAttribute('data-id'),
+            };
+
+            fetch('/admin/comment?_method=DELETE',{
+                method: 'POST',
+                headers:{
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(commentId),
+            })
+            .then(()=>window.location.reload())
+            /* .then(data=>{
+                data.sort(()=>{
+                        return -1;
+                    });
+                    
+                let commentHtml  = data.map(comment=>{
+                    return `<li class="comment-item">
+                                <img src="https://thinkingschool.vn/wp-content/uploads/avatars/753/753-bpfull.jpg" alt="avatar" class="user-avatar">
+                                <div class="item-info">
+                                    <p class="content">${comment.text}</p>
+                                    {{!-- <span class="date-create">12/6/2021</span> --}}
+                                </div>
+                                <div class="comment-delete" >
+                                    <i class="fas fa-times btn-comment-delete" data-id="${comment._id}" ></i>
+                                </div>
+                            </li>`
+                });
+                commentList.innerHTML = commentHtml.join('');
+                var btnDeleteComment = document.querySelectorAll('.btn-comment-delete'); 
+            }) */
+        }
+    }
+
+
+</script>
+
+<script>
+    $('.background').hide();
+    $(window).on('load',()=>{
+        $('.background').show();
+        $('.loadding-element').hide();
+    })
+</script>

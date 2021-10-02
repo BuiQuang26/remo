@@ -1,0 +1,133 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 16px;
+    font-family: 'Signika', sans-serif;
+}
+
+.hidden{
+    display: none;
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+    background-image: url(http://localhost:3000/img/img-br-login.jpg);
+    background-repeat: no-repeat;
+}
+
+.login-wrapper{
+    border: 1px solid #ccc;
+    width: 360px;
+    padding: 12px;
+    margin: auto;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 36px rgba(0,0,0,.5);
+}
+
+.login-heading{
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 32px;
+}
+
+.content-items{
+    margin-top: 18px;
+}
+
+.content-items-label{
+    font-size: 20px;
+    margin-bottom: 4px;
+    color: #414141;
+}
+
+.container-input{
+    padding: 4px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.content-items-input{
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    border: none;
+}
+
+.btn-login{
+    border: none;
+    padding: 4px 12px;
+    background-color: rgb(43, 124, 182);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.btn-login:hover{
+    background-color: rgb(33, 106, 159);
+}
+
+.content-items-option{
+    font-size: 12px;
+    color: #666;
+}
+
+.content-items-link{
+    color: rgb(33, 106, 159);
+}
+
+/* notification */
+.notification{
+    position: fixed;
+    z-index: 9;
+    top: 2px;
+    left: 4px;
+}
+
+.notification-body{
+    width: 256px;
+    background-color: #b12f23;
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    color: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-message{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.notification-message .user-name{
+    color: rgb(251, 255, 0);
+    font-size: 20px;
+}
+
+.notifi-swit{
+    background-color: rgb(26, 125, 164);
+}
+
+.notifi-link{
+    text-decoration: none;
+}
+
+.notifi-link:hover .notification-body {
+    transform: scale(0.99);
+}
+
